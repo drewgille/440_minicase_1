@@ -6,6 +6,7 @@ date: "2024-09-05"
 
 ```{r}
 library(readxl)
+library(dplyr)
 ```
 
 ```{r}
@@ -26,5 +27,30 @@ survey <- read_excel("Durham_2022_Resident_Survey_Raw_Data (1).xlsx")
               #other variables (existing or derived)
 
 
+```
+
+```{r}
+survey$`Q24[01] [01  As a place to live]`[survey$`Q24[01] [01  As a place to live]` == 9] <- 0
+survey$`Q24[02] [02  As a place to work]`[survey$`Q24[02] [02  As a place to work]` == 9] <- 0
+survey$`Q24[03] [03  As a place to play]`[survey$`Q24[03] [03  As a place to play]` == 9] <-0
+survey$`Q24[04] [04  As a place to raise childre`[survey$`Q24[04] [04  As a place to raise childre` == 9] <- 0
+survey$`Q24[05] [05  As a place to educate child`[survey$`Q24[05] [05  As a place to educate child` == 9] <- 0
+survey$`Q24[06] [06  As a place to retire]`[survey$`Q24[06] [06  As a place to retire]` == 9] <- 0
+survey$`Q24[07] [07  As a place to visit]`[survey$`Q24[07] [07  As a place to visit]` == 9] <- 0
+survey$`Q24[08] [08  As a place to start a busin`[survey$`Q24[08] [08  As a place to start a busin` == 9] <- 0
+survey$`Q24[09] [09  As a community that is movi`[survey$`Q24[09] [09  As a community that is movi` == 9] <- 0
+survey$`Q24[10] [10  As a community that values`[survey$`Q24[10] [10  As a community that values` == 9] <- 0
+
+survey <- survey %>%
+  mutate(place_to_live_total = `Q24[01] [01  As a place to live]` +
+           `Q24[02] [02  As a place to work]` +
+           `Q24[03] [03  As a place to play]` +
+           `Q24[04] [04  As a place to raise childre` +
+           `Q24[05] [05  As a place to educate child` +
+           `Q24[06] [06  As a place to retire]` +
+           `Q24[07] [07  As a place to visit]` +
+           `Q24[08] [08  As a place to start a busin` +
+           `Q24[09] [09  As a community that is movi` +
+           `Q24[10] [10  As a community that values`)
 ```
 
