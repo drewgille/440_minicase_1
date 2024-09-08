@@ -14,10 +14,17 @@ survey <- read_excel("Durham_2022_Resident_Survey_Raw_Data (1).xlsx")
 
 ```{r}
 #RESPONSE: Perceived resident ratings of Durham as a place to live (Q24)
+  #Q24 has 10 parts, each a rating of 1-5, with 9 meaning N/A
+    #thus we shall create a variable which is simply a total of this; if value of 9, change to zero; sum all values
+
 #EXPLORE ASSOCIATION WITH: length of time residents have lived in Durham (Q27)
 #ADJUST FOR:
-              #resident's total annual household income
-              #whether monthly housing costs (rent or mortgage) exceed 30% of the resident's monthly income
+              #resident's total annual household income (Q33)
+                #this variable is ordinal
+              #whether monthly housing costs (rent or mortgage) exceed 30% of the resident's monthly income (Q9.1)
+                #this variable is binary
               #other variables (existing or derived)
+
+
 ```
 
