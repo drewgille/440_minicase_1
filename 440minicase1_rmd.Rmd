@@ -19,14 +19,13 @@ survey <- read_excel("Durham_2022_Resident_Survey_Raw_Data (1).xlsx")
     #thus we shall create a variable which is simply a total of this; if value of 9, change to zero; sum all values
 
 #EXPLORE ASSOCIATION WITH: length of time residents have lived in Durham (Q27)
+
 #ADJUST FOR:
               #resident's total annual household income (Q33)
                 #this variable is ordinal
               #whether monthly housing costs (rent or mortgage) exceed 30% of the resident's monthly income (Q9.1)
-                #this variable is binary
+                #this variable is binary (theoretically, but it includes a third value for N/A)
               #other variables (existing or derived)
-
-
 ```
 
 ```{r}
@@ -52,5 +51,10 @@ survey <- survey %>%
            `Q24[08] [08  As a place to start a busin` +
            `Q24[09] [09  As a community that is movi` +
            `Q24[10] [10  As a community that values`)
+```
+
+```{r}
+length(survey$`Q33  Would you say your total annual hou`[survey$`Q33  Would you say your total annual hou` == 9])
+length(survey$`Q9[01]  [1  Do your monthly housing cost`[survey$`Q9[01]  [1  Do your monthly housing cost` == 9])
 ```
 
