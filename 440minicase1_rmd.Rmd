@@ -40,8 +40,10 @@ survey$`Q24[08] [08  As a place to start a busin`[survey$`Q24[08] [08  As a plac
 survey$`Q24[09] [09  As a community that is movi`[survey$`Q24[09] [09  As a community that is movi` == 9] <- 0
 survey$`Q24[10] [10  As a community that values`[survey$`Q24[10] [10  As a community that values` == 9] <- 0
 
+#create rating variable which is total of all 10 parts of Q24
+#ASSUMPTION: the N/A values are independent of rating (i.e. observations of people who would rate Durham as a bad place to live are equally as likely to contain N/A values as observations of people who would rate Durham as a good place to live)
 survey <- survey %>%
-  mutate(place_to_live_total = `Q24[01] [01  As a place to live]` +
+  mutate(rating = `Q24[01] [01  As a place to live]` +
            `Q24[02] [02  As a place to work]` +
            `Q24[03] [03  As a place to play]` +
            `Q24[04] [04  As a place to raise childre` +
@@ -56,5 +58,24 @@ survey <- survey %>%
 ```{r}
 length(survey$`Q33  Would you say your total annual hou`[survey$`Q33  Would you say your total annual hou` == 9])
 length(survey$`Q9[01]  [1  Do your monthly housing cost`[survey$`Q9[01]  [1  Do your monthly housing cost` == 9])
+```
+
+```{r}
+#I want to include missing values for both Q33 and Q9.1 because there are a significant number of missing values for them both
+#Q33 is an ordinal variable, but a "Missing" category would not fit into the ranking structure, so I will simply treat Q33 as a non-ordinal categorical variable
+basemod <- lm(rating ~ as.factor(`Q33  Would you say your total annual hou`) + as.factor(`Q9[01]  [1  Do your monthly housing cost`), data = survey)
+summary(basemod)
+```
+
+```{r}
+#EDA for other potential predictors
+```
+
+```{r}
+#full model with time lived in Durham as predictor
+```
+
+```{r}
+#F-test
 ```
 
