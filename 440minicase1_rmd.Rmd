@@ -62,30 +62,32 @@ length(survey$`Q9[01]  [1  Do your monthly housing cost`[survey$`Q9[01]  [1  Do 
 
 ```{r}
 #I want to include missing values for both Q33 and Q9.1 because there are a significant number of missing values for them both
+#However, I do not want to fit the model using observations with missing data for time spent in Durham. The reason for this is because later I want to compare nested models, and to do so, the models must be fit to the same data
 #Q33 is an ordinal variable, but a "Missing" category would not fit into the ranking structure, so I will simply treat Q33 as a non-ordinal categorical variable
-basemod <- lm(rating ~ as.factor(`Q33  Would you say your total annual hou`) + as.factor(`Q9[01]  [1  Do your monthly housing cost`), data = survey)
+survey_clean <- survey[complete.cases(survey[, 208]), ]
+basemod <- lm(rating ~ as.factor(`Q33  Would you say your total annual hou`) + as.factor(`Q9[01]  [1  Do your monthly housing cost`), data = survey_clean)
 summary(basemod)
 ```
 
 ```{r}
 #EDA for other potential predictors
 ##I am curious if individuals of different racial backgrounds have a different perception of Durham
-survey %>%
+survey_clean %>%
   filter(`Q32[01]  [Asian or Asian Indian]` == 1) %>%
   summarize(avg_rating = mean(rating))
-survey %>%
+survey_clean %>%
   filter(`Q32[02]  [Black or African American]` == 2) %>%
   summarize(avg_rating = mean(rating))
-survey %>%
+survey_clean %>%
   filter(`Q32[03]  [American Indian or Alaska Nati` == 3) %>%
   summarize(avg_rating = mean(rating))
-survey %>%
+survey_clean %>%
   filter(`Q32[04]  [White]` == 4) %>%
   summarize(avg_rating = mean(rating))
-survey %>%
+survey_clean %>%
   filter(`Q32[05]  [Native Hawaiian or other Pacif` == 5) %>%
   summarize(avg_rating = mean(rating))
-survey %>%
+survey_clean %>%
   filter(`Q32[06]  [Other]` == 6) %>%
   summarize(avg_rating = mean(rating))
 ```
@@ -96,11 +98,22 @@ survey %>%
 
 ```{r}
 #full model with time lived in Durham as predictor
-fullmod <- lm(rating ~ as.factor(`Q33  Would you say your total annual hou`) + as.factor(`Q9[01]  [1  Do your monthly housing cost`) + `Q27  Approximately how many years have y`, data = survey)
+fullmod <- lm(rating ~ as.factor(`Q33  Would you say your total annual hou`) + as.factor(`Q9[01]  [1  Do your monthly housing cost`) + `Q27  Approximately how many years have y`, data = survey_clean)
 summary(fullmod)
 ```
 
 ```{r}
+#LRT
+library(lmtest)
+lrtest(basemod, fullmod)
+```
+
+```{r}
 #F-test
+anova(basemod, fullmod)
+```
+
+```{r}
+#Both the LRT and F-test suggest that length of time lived in Durham is a significant predictor of rating
 ```
 
