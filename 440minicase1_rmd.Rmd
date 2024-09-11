@@ -148,3 +148,16 @@ lrtest(fullmod, fullmod_gender)
 #F-test (gender)
 anova(fullmod, fullmod_gender)
 ```
+
+```{r}
+#AIC & BIC
+AIC(fullmod)
+AIC(fullmod_gender)
+BIC(fullmod)
+BIC(fullmod_gender)
+```
+
+```{r}
+#We see that BIC is higher for the model with gender because BIC penalizes for the extra predictor, and the predictor itself doesn't add much predictive value
+```
+
