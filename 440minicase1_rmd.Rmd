@@ -96,6 +96,8 @@ survey %>%
 
 ```{r}
 #full model with time lived in Durham as predictor
+fullmod <- lm(rating ~ as.factor(`Q33  Would you say your total annual hou`) + as.factor(`Q9[01]  [1  Do your monthly housing cost`) + `Q27  Approximately how many years have y`, data = survey)
+summary(fullmod)
 ```
 
 ```{r}
