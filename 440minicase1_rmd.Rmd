@@ -93,6 +93,23 @@ survey_clean %>%
 ```
 
 ```{r}
+#EDA for other potential predictors (cont.)
+##I am curious if gender plays a role in predicting perception of Durham
+survey_clean %>%
+  filter(`Q29  What is your gender?` == 1) %>%
+  summarize(avg_rating = mean(rating))
+survey_clean %>%
+  filter(`Q29  What is your gender?` == 2) %>%
+  summarize(avg_rating = mean(rating))
+survey_clean %>%
+  filter(`Q29  What is your gender?` == 3) %>%
+  summarize(avg_rating = mean(rating))
+survey_clean %>%
+  filter(`Q29  What is your gender?` == 4) %>%
+  summarize(avg_rating = mean(rating))
+```
+
+```{r}
 #the ratings seem to be roughly the same across races (except for Native Hawaiian / Pacific Islander, but there is only one data point for that), so we will not include race as a predictor
 ```
 
@@ -117,3 +134,17 @@ anova(basemod, fullmod)
 #Both the LRT and F-test suggest that length of time lived in Durham is a significant predictor of rating
 ```
 
+```{r}
+fullmod_gender <- lm(rating ~ as.factor(`Q33  Would you say your total annual hou`) + as.factor(`Q9[01]  [1  Do your monthly housing cost`) + `Q27  Approximately how many years have y` + as.factor(`Q29  What is your gender?`), data = survey_clean)
+summary(fullmod_gender)
+```
+
+```{r}
+#LRT (gender)
+lrtest(fullmod, fullmod_gender)
+```
+
+```{r}
+#F-test (gender)
+anova(fullmod, fullmod_gender)
+```
