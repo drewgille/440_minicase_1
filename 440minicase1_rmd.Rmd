@@ -69,6 +69,29 @@ summary(basemod)
 
 ```{r}
 #EDA for other potential predictors
+##I am curious if individuals of different racial backgrounds have a different perception of Durham
+survey %>%
+  filter(`Q32[01]  [Asian or Asian Indian]` == 1) %>%
+  summarize(avg_rating = mean(rating))
+survey %>%
+  filter(`Q32[02]  [Black or African American]` == 2) %>%
+  summarize(avg_rating = mean(rating))
+survey %>%
+  filter(`Q32[03]  [American Indian or Alaska Nati` == 3) %>%
+  summarize(avg_rating = mean(rating))
+survey %>%
+  filter(`Q32[04]  [White]` == 4) %>%
+  summarize(avg_rating = mean(rating))
+survey %>%
+  filter(`Q32[05]  [Native Hawaiian or other Pacif` == 5) %>%
+  summarize(avg_rating = mean(rating))
+survey %>%
+  filter(`Q32[06]  [Other]` == 6) %>%
+  summarize(avg_rating = mean(rating))
+```
+
+```{r}
+#the ratings seem to be roughly the same across races (except for Native Hawaiian / Pacific Islander, but there is only one data point for that), so we will not include race as a predictor
 ```
 
 ```{r}
